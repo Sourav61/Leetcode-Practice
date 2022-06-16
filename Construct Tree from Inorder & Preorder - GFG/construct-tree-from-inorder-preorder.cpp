@@ -41,32 +41,45 @@ struct Node
 */
 class Solution{
     public:
-    int pre_Index=0;
-    Node* tree(int in[],int pre[],int is, int ie)
-    {
-        if(is>ie)
-            return NULL;
-        Node* root=new Node(pre[pre_Index++]);
-        int in_Index;
-        for(int i=is;i<=ie;i++)
-        {
-            if(in[i]==root->data)
-            {
-                in_Index=i;
-                break;
+    int idx = 0;
+    int search(int in[],int curr,int start,int end){
+        for(int i=start;i<=end;i++){
+            if(in[i] == curr){
+                return i;
             }
         }
-        root->left=tree(in,pre,is,in_Index-1);
-        root->right=tree(in,pre,in_Index+1,ie);
-        
-        return root;
+
+        return -1;
     }
-    
+
+    Node* Tree(int in[],int pre[],int start, int n)
+    {
+        
+
+        if(start > n){
+            return NULL;
+        }
+
+        int curr = pre[idx];
+        idx++;
+        Node* node = new Node(curr);
+
+        if(start == n){
+            return node;
+        }
+
+        int pos = search(in,curr,start,n);
+
+        node->left = Tree(in,pre,start,pos-1);
+        node->right = Tree(in, pre, pos+1,n);
+
+        return node;
+    }
+
     Node* buildTree(int in[],int pre[], int n)
     {
-        // Code here
-        Node* ans=tree(in,pre,0,n-1);
-        return ans;
+        Node* ans = Tree(in, pre, 0, n-1);
+        return ans;    
     }
 };
 
