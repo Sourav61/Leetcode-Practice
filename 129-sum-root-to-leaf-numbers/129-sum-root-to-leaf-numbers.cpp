@@ -18,17 +18,15 @@ public:
         return ans;
     }
 
-    int sumNum(TreeNode* root, string sum, int &ans){
+    void sumNum(TreeNode* root, string sum, int &ans){
         if(root->left == NULL && root->right == NULL){
             ans+=stoi(sum);
-            return 0;
+            return;
         }
         
         if(root->left != NULL)
-            int left = sumNum(root->left, sum+to_string(root->left->val),ans);
+            sumNum(root->left, sum+to_string(root->left->val),ans);
         if(root->right != NULL)
-            int right = sumNum(root->right, sum+to_string(root->right->val),ans);
-
-        return stoi(sum);
+            sumNum(root->right, sum+to_string(root->right->val),ans);
     }
 };
