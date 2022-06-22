@@ -138,9 +138,9 @@ public:
                 curr = curr->left; 
         }
 
-        for(int i=temp.size()-1;i>=0;--i){
-            res.push_back(temp[i]);
-        }
+        reverse(temp.begin(),temp.end());
+        
+        res.insert(res.end(),temp.begin(),temp.end());
     }
 
     void addLeaves(Node* root, vector<int> &res){
