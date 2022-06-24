@@ -1,18 +1,39 @@
 class Solution {
 public:
-    int maxSubarraySumCircular(vector<int>& nums) {
-        int max_sum = nums[0], min_sum = nums[0], sum = nums[0], prev_min = nums[0], prev_max = nums[0];
-        
-        for (int i = 1; i < nums.size(); i++) {
-            sum += nums[i];
+    int kadane(vector<int> &nums){
+        int currSum = 0, maxSum = INT_MIN;
+        for(auto x : nums){
+            currSum = max(x, x+currSum);
+            maxSum = max(maxSum, currSum);
             
-            prev_max = max(prev_max + nums[i], nums[i]);
-            max_sum = max(max_sum, prev_max);
-            
-            prev_min = min(prev_min + nums[i], nums[i]);
-            min_sum = min(min_sum, prev_min);
+            // cout<<maxSum<<" "<<currSum<<endl;
         }
+
+        return maxSum;
+    }
+
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int wrapSum;
+        int nonwrapSum;
         
-        return sum == min_sum ? max_sum : max(max_sum, sum-min_sum);
+        int n = nums.size();
+
+        nonwrapSum = kadane(nums);
+        if(nonwrapSum<0){
+            return nonwrapSum;
+        }
+
+        int totalSum = 0;
+
+        for(int i=0;i<n;i++){
+            totalSum+=nums[i];
+            nums[i] = -nums[i];
+        }
+
+        wrapSum = totalSum + kadane(nums);
+        
+        cout<<wrapSum<<" "<<nonwrapSum<<endl;
+
+        return max(wrapSum, nonwrapSum);
     }
 };
