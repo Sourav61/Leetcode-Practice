@@ -40,7 +40,6 @@ public:
     }
 
     vector<int> findMode(TreeNode* root) {
-        ans.clear();
         if(!root)
             return ans;
 
